@@ -1,0 +1,49 @@
+# .gitignore
+
+# Backend - .NET
+bin/
+obj/
+*.user
+*.suo
+*.userprefs
+*.sln.cache
+*.pdb
+*.dll
+*.exe
+
+# Frontend - Angular / Node
+node_modules/
+dist/
+.tmp/
+out-tsc/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Angular specific
+.angular/
+.cache/
+coverage/
+.DS_Store
+
+# Environment files (if you add them later)
+*.env
+.env.local
+.env.production
+
+# IDE and Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Miscellaneous
+*.log
+*.sqlite
+*.sqlite3
