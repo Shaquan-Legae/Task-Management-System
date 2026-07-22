@@ -39,4 +39,6 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+app.MapGet("/", () => "API is running");
+
 app.Run("http://0.0.0.0:8080");
