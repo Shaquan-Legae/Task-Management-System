@@ -1,0 +1,17 @@
+1. An API integration error is a 
+    communication error between the client and the server
+    whereas a logic error is a programming error where the code works
+    but not the way it is supposed to.
+
+2. Systematically isolate the issue and failure point to identify
+    if it is the request, network, or the server.
+
+3. This is a good industry-standard practice, named decoupled architecture, 
+    where the client and server are separate and independent. 
+    It allows for independent scaling, flexibility, and maintenance.
+
+4. Jest, it is a JavaScript testing framework that is used for testing
+    JavaScript code. It ensures individual unit tests and integration tests.
+
+5. Enforce clean code practices, such as DRY (Don't Repeat Yourself) 
+    and SOLID principles, clean code architecture and documentation.

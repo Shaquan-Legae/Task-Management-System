@@ -41,9 +41,9 @@ namespace TaskManagerAPI.Controllers
         [HttpPut("{id}")]
         public IActionResult CompleteTask(int id)
         {
-            bool success = _taskService.CompleteTask(id);
+            var task = _taskService.CompleteTask(id);
 
-            if (!success)
+            if (task == null)
             {
                 return NotFound($"Task with ID {id} was not found.");
             }

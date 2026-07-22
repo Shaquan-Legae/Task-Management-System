@@ -34,7 +34,7 @@ export class TaskForm {
         this.title = '';
         this.priority = 'Medium';
       },
-      error: (err) => {
+      error: (err: unknown) => {
         console.error('Failed to add task:', err);
       }
     });

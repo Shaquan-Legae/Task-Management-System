@@ -3,8 +3,10 @@
     <h2>Add New Task</h2>
 
     <input type="text" placeholder="Enter task title" [(ngModel)]="title">
+    
+    <label for="priority">Task Priority</label>
 
-    <select [(ngModel)]="priority">
+    <select id="priority" [(ngModel)]="priority">
         <option value="High">High Priority</option>
         <option value="Medium">Medium Priority</option>
         <option value="Low">Low Priority</option>

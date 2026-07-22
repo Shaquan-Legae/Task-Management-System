@@ -21,7 +21,6 @@ namespace TaskManagerAPI.Services
 
             Console.WriteLine($"Added task: {task.Title}");
             Console.WriteLine($"Total tasks: {_tasks.Count}");
-
             return task;
         }
 
@@ -31,20 +30,20 @@ namespace TaskManagerAPI.Services
             return _tasks;
         }
 
-        public bool CompleteTask(int id)
+        public TaskItem? CompleteTask(int id)
         {
             var task = _tasks.FirstOrDefault(t => t.Id == id);
 
             if (task == null)
             {
-                return false;
+                return null;
             }
 
             task.Completed = true;
 
             Console.WriteLine($"Completed task: {task.Title}");
 
-            return true;
+            return task;
         }
     }
 }

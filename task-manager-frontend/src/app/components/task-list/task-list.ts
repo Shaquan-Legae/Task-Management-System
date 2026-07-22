@@ -32,10 +32,10 @@ export class TaskList implements OnInit, OnDestroy {
 
   loadTasks(): void {
     this.taskService.getTasks().subscribe({
-      next: (data) => {
+      next: (data: Task[]) => {
         this.tasks = data;
       },
-      error: (err) => {
+      error: (err: unknown) => {
         console.error(err);
       }
     });
@@ -46,6 +46,6 @@ export class TaskList implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.refreshSubscription.unsubscribe();
+    this.refreshSubscription?.unsubscribe();
   }
 }
