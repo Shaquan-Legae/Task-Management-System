@@ -1,0 +1,8 @@
+services:
+  - type: web
+    name: task-manager-api
+    runtime: docker
+    plan: free
+    rootDir: TaskManagerAPI
+    buildCommand: dotnet publish -c Release -o out
+    startCommand: dotnet out/TaskManagerAPI.dll
