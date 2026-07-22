@@ -12,7 +12,6 @@ builder.Services.AddCors(options =>
     options.AddPolicy("Angular", policy =>
     {
         policy.WithOrigins("http://localhost:4200",
-                           "https://task-management-system-d5u7.onrender.com/tasks",
                            "https://task-management-system-1-hlhy.onrender.com")
               .AllowAnyHeader()
               .AllowAnyMethod();
