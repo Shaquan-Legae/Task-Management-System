@@ -2,10 +2,16 @@
 
     <h2>Tasks</h2>
 
-    <div class="empty" *ngIf="tasks.length === 0">
+    <div class="loading" *ngIf="isLoading">
+        Loading tasks...
+    </div>
 
+    <div class="error" *ngIf="errorMessage">
+        {{ errorMessage }}
+    </div>
+
+    <div class="empty" *ngIf="!isLoading && tasks.length === 0">
         No tasks available.
-
     </div>
 
     <div class="task" *ngFor="let task of tasks; trackBy: trackByTaskId">
@@ -24,17 +30,23 @@
 
             </span>
 
-            <p>
+            <p class="status" [ngClass]="{'completed': task.completed, 'pending': !task.completed}">
 
-                {{task.completed ? 'Completed' : 'Pending'}}
+                {{task.completed ? '✓ Completed' : '○ Pending'}}
 
             </p>
 
         </div>
 
-        <button *ngIf="!task.completed" (click)="completeTask(task.id)">
+        <button *ngIf="!task.completed" (click)="completeTask(task.id)" class="complete-btn">
 
             Complete
+
+        </button>
+
+        <button *ngIf="task.completed" disabled class="completed-btn">
+
+            ✓ Done
 
         </button>
 

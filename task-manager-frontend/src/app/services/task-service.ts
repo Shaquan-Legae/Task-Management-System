@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, Subject, tap } from 'rxjs';
 import { Task } from '../models/task';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TaskService {
 
-  private readonly apiUrl = 'https://task-management-system-d5u7.onrender.com/tasks';
+  private readonly apiUrl = `${environment.apiUrl}/tasks`;
 
   private readonly tasksSubject = new BehaviorSubject<Task[]>([]);
   readonly tasks$ = this.tasksSubject.asObservable();

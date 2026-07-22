@@ -2,18 +2,44 @@
 
     <h2>Add New Task</h2>
 
-    <input type="text" placeholder="Enter task title" [(ngModel)]="title">
+    <div class="success-message" *ngIf="successMessage">
+        {{ successMessage }}
+    </div>
+
+    <div class="error-message" *ngIf="errorMessage">
+        {{ errorMessage }}
+    </div>
+
+    <div class="form-group">
+        <input 
+            type="text" 
+            placeholder="Enter task title" 
+            [(ngModel)]="title"
+            [disabled]="isSubmitting"
+            minlength="3"
+        >
+    </div>
     
-    <label for="priority">Task Priority</label>
+    <div class="form-group">
+        <label for="priority">Task Priority</label>
 
-    <select id="priority" [(ngModel)]="priority">
-        <option value="High">High Priority</option>
-        <option value="Medium">Medium Priority</option>
-        <option value="Low">Low Priority</option>
-    </select>
+        <select 
+            id="priority" 
+            [(ngModel)]="priority"
+            [disabled]="isSubmitting"
+        >
+            <option value="High">High Priority</option>
+            <option value="Medium">Medium Priority</option>
+            <option value="Low">Low Priority</option>
+        </select>
+    </div>
 
-    <button (click)="addTask()">
-        Add Task
+    <button 
+        (click)="addTask()"
+        [disabled]="isSubmitting || !title.trim()"
+        class="submit-btn"
+    >
+        {{ isSubmitting ? 'Adding Task...' : 'Add Task' }}
     </button>
 
 </div>

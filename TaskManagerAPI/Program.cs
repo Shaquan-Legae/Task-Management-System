@@ -1,11 +1,20 @@
 using TaskManagerAPI.Services;
+using System.Text.Json.Serialization;
 
 Environment.SetEnvironmentVariable("DOTNET_HOSTBUILDER__RELOADCONFIGONCHANGE", "false");
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        // Configure JSON serialization to use camelCase for property names
+        // This ensures C# PascalCase properties (Id, Title) are serialized as camelCase (id, title)
+        // which matches the Angular/TypeScript interface expectations
+        options.JsonSerializerOptions.PropertyNamingPolicy = System.Text.Json.JsonNamingPolicy.CamelCase;
+        options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+    });
 builder.Services.AddSingleton<TaskService>();
 
 // Register CORS BEFORE builder.Build()

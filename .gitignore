@@ -47,3 +47,8 @@ Thumbs.db
 *.log
 *.sqlite
 *.sqlite3
+
+COMPLETE_FIX_SUMMARY.md
+DEBUG_FIX_REPORT.md
+QUICK_START.md
+VISUAL_FIX_OVERVIEW.md

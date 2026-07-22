@@ -15,26 +15,43 @@ import { TaskService } from '../../services/task-service';
 export class TaskList implements OnInit, OnDestroy {
 
   tasks: Task[] = [];
+  isLoading: boolean = false;
+  errorMessage: string = '';
 
   private tasksSubscription!: Subscription;
+  private refreshSubscription!: Subscription;
 
   constructor(private taskService: TaskService) {}
 
   ngOnInit(): void {
+    // Subscribe to the tasks BehaviorSubject to automatically update when tasks change
     this.tasksSubscription = this.taskService.tasks$.subscribe((tasks) => {
       this.tasks = tasks;
+      this.errorMessage = '';
     });
 
+    // Subscribe to refresh events and reload tasks when triggered
+    this.refreshSubscription = this.taskService.refresh$.subscribe(() => {
+      this.loadTasks();
+    });
+
+    // Load tasks from the backend on component initialization
     this.loadTasks();
   }
 
   loadTasks(): void {
+    this.isLoading = true;
+    this.errorMessage = '';
+    
     this.taskService.loadTasks().subscribe({
       next: (data: Task[]) => {
         this.tasks = data;
+        this.isLoading = false;
       },
       error: (err: unknown) => {
         console.error('Error loading tasks:', err);
+        this.errorMessage = 'Failed to load tasks. Please try again.';
+        this.isLoading = false;
       }
     });
   }
@@ -43,6 +60,7 @@ export class TaskList implements OnInit, OnDestroy {
     this.taskService.completeTask(id).subscribe({
       error: (err: unknown) => {
         console.error('Error completing task:', err);
+        this.errorMessage = 'Failed to complete task. Please try again.';
       }
     });
   }
@@ -53,5 +71,6 @@ export class TaskList implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.tasksSubscription?.unsubscribe();
+    this.refreshSubscription?.unsubscribe();
   }
 }
