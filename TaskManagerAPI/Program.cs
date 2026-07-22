@@ -1,5 +1,7 @@
 using TaskManagerAPI.Services;
 
+Environment.SetEnvironmentVariable("DOTNET_HOSTBUILDER__RELOADCONFIGONCHANGE", "false");
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -42,4 +44,4 @@ app.MapControllers();
 
 app.MapGet("/", () => "API is running");
 
-app.Run("http://0.0.0.0:8080");
+app.Run();
