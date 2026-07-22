@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Subscription } from 'rxjs';
 
@@ -16,27 +16,22 @@ export class TaskList implements OnInit, OnDestroy {
 
   tasks: Task[] = [];
 
-  private refreshSubscription!: Subscription;
+  private tasksSubscription!: Subscription;
 
   constructor(private taskService: TaskService) {}
 
   ngOnInit(): void {
-
-    this.loadTasks();
-
-    this.refreshSubscription = this.taskService.refresh$.subscribe(() => {
-      console.log('Refresh event received');
-      this.loadTasks();
+    this.tasksSubscription = this.taskService.tasks$.subscribe((tasks) => {
+      this.tasks = tasks;
     });
 
+    this.loadTasks();
   }
 
   loadTasks(): void {
-    this.taskService.getTasks().subscribe({
+    this.taskService.loadTasks().subscribe({
       next: (data: Task[]) => {
-        console.log('Tasks received:', data);
         this.tasks = data;
-        console.log('Tasks stored:', this.tasks);
       },
       error: (err: unknown) => {
         console.error('Error loading tasks:', err);
@@ -46,17 +41,17 @@ export class TaskList implements OnInit, OnDestroy {
 
   completeTask(id: number): void {
     this.taskService.completeTask(id).subscribe({
-      next: () => {
-        console.log('PUT successful');
-        this.loadTasks();
-      },
       error: (err: unknown) => {
         console.error('Error completing task:', err);
       }
     });
   }
 
+  trackByTaskId(index: number, task: Task): number {
+    return task.id;
+  }
+
   ngOnDestroy(): void {
-    this.refreshSubscription?.unsubscribe();
+    this.tasksSubscription?.unsubscribe();
   }
 }

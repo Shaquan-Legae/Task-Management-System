@@ -48,7 +48,7 @@ namespace TaskManagerAPI.Controllers
                 return NotFound($"Task with ID {id} was not found.");
             }
 
-            return Ok($"Task {id} marked as completed.");
+            return Ok(task);
         }
     }
 }

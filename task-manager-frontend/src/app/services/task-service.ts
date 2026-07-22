@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, Subject, tap } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, tap } from 'rxjs';
 import { Task } from '../models/task';
 
 @Injectable({
@@ -8,27 +8,47 @@ import { Task } from '../models/task';
 })
 export class TaskService {
 
-  private apiUrl = 'https://task-management-system-d5u7.onrender.com/tasks';
+  private readonly apiUrl = 'https://task-management-system-d5u7.onrender.com/tasks';
 
-  private refreshSource = new Subject<void>();
+  private readonly tasksSubject = new BehaviorSubject<Task[]>([]);
+  readonly tasks$ = this.tasksSubject.asObservable();
 
-  refresh$ = this.refreshSource.asObservable();
+  private readonly refreshSource = new Subject<void>();
+  readonly refresh$ = this.refreshSource.asObservable();
 
   constructor(private http: HttpClient) {}
 
   getTasks(): Observable<Task[]> {
-    return this.http.get<Task[]>(this.apiUrl);
+    return this.http.get<Task[]>(this.apiUrl).pipe(
+      tap((tasks) => this.tasksSubject.next(tasks))
+    );
+  }
+
+  loadTasks(): Observable<Task[]> {
+    return this.getTasks();
   }
 
   addTask(task: Task): Observable<Task> {
     return this.http.post<Task>(this.apiUrl, task).pipe(
-      tap(() => this.refreshSource.next())
+      tap((createdTask) => {
+        const currentTasks = this.tasksSubject.getValue();
+        this.tasksSubject.next([...currentTasks, createdTask]);
+        this.refreshSource.next();
+      })
     );
   }
 
-  completeTask(id: number): Observable<any> {
-    return this.http.put(`${this.apiUrl}/${id}`, {}).pipe(
-      tap(() => this.refreshSource.next())
+  completeTask(id: number): Observable<Task> {
+    return this.http.put<Task>(`${this.apiUrl}/${id}`, {}).pipe(
+      tap((updatedTask) => {
+        const currentTasks = this.tasksSubject.getValue();
+        const nextTasks = currentTasks.map((task) =>
+          task.id === id ? { ...task, ...updatedTask } : task
+        );
+
+        this.tasksSubject.next(nextTasks);
+        this.refreshSource.next();
+      })
     );
   }
 }

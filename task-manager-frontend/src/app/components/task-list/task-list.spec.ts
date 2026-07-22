@@ -15,8 +15,16 @@ describe('TaskList', () => {
         {
           provide: TaskService,
           useValue: {
+            tasks$: of([
+              {
+                id: 1,
+                title: 'Test Task',
+                priority: 'High',
+                completed: false
+              }
+            ]),
             refresh$: of(undefined),
-            getTasks: () => of([
+            loadTasks: () => of([
               {
                 id: 1,
                 title: 'Test Task',
