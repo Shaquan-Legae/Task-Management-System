@@ -31,7 +31,9 @@
             "server": "src/main.server.ts",
             "outputMode": "server",
             "security": {
-              "allowedHosts": []
+              "allowedHosts": [
+                "localhost"
+              ]
             },
             "ssr": {
               "entry": "src/server.ts"
@@ -65,10 +67,13 @@
               "sourceMap": true
             }
           },
-          "defaultConfiguration": "production"
+          "defaultConfiguration": "development"
         },
         "serve": {
           "builder": "@angular/build:dev-server",
+          "options": {
+            "host": "localhost"
+          },
           "configurations": {
             "production": {
               "buildTarget": "task-manager-frontend:build:production"
