@@ -35,10 +35,10 @@ export class TaskList implements OnInit, OnDestroy {
     next: (data: Task[]) => {
       console.log("Tasks received:", data);
       this.tasks = data;
-      console.log("Tasks array:", this.tasks);
+      console.log("Tasks stored:", this.tasks);
     },
-    error: (err) => {
-      console.error("Error loading tasks:", err);
+    error: (err: unknown) => {
+      console.error("Error:", err);
     }
   });
 }
