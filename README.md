@@ -35,8 +35,14 @@ TaskManager/
 │   ├── components/
 │   └── services/
 │
-├── DEBUG_NOTES.txt
-├── answers.txt
+├── Tests
+│   ├── TaskManagerAPI.Tests
+│   └── frontend
+├── Debug
+│   ├── buggy_backend.cs
+│   ├── buggy_frontend.cs
+│   ├── DEBUG_NOTES.txt
+│   └── answers.txt
 └── README.md
 ```
 
@@ -162,7 +168,7 @@ The application will run at: `http://localhost:4200`
 
 ## Debugging Fixes
 
-The original project contained intentional bugs in both frontend and backend files.
+The original files contained intentional bugs in both frontend and backend files.
 
 **Backend Fixes:**
 - Added validation for task priority values
