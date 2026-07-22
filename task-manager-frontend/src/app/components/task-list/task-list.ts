@@ -31,15 +31,17 @@ export class TaskList implements OnInit, OnDestroy {
   }
 
   loadTasks(): void {
-    this.taskService.getTasks().subscribe({
-      next: (data: Task[]) => {
-        this.tasks = data;
-      },
-      error: (err: unknown) => {
-        console.error(err);
-      }
-    });
-  }
+  this.taskService.getTasks().subscribe({
+    next: (data: Task[]) => {
+      console.log("Tasks received:", data);
+      this.tasks = data;
+      console.log("Tasks array:", this.tasks);
+    },
+    error: (err) => {
+      console.error("Error loading tasks:", err);
+    }
+  });
+}
 
   completeTask(id: number): void {
     this.taskService.completeTask(id).subscribe();
