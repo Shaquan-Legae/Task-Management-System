@@ -8,7 +8,7 @@ import { Task } from '../models/task';
 })
 export class TaskService {
 
-  private apiUrl = 'http://localhost:5236/tasks';
+  private apiUrl = 'https://task-management-system-d5u7.onrender.com/tasks';
 
   private refreshSource = new Subject<void>();
 
