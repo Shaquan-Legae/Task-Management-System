@@ -1,0 +1,43 @@
+<div class="card">
+
+    <h2>Tasks</h2>
+
+    <div class="empty" *ngIf="tasks.length === 0">
+
+        No tasks available.
+
+    </div>
+
+    <div class="task" *ngFor="let task of tasks">
+
+        <div>
+
+            <h3>{{task.title}}</h3>
+
+            <span class="badge" [ngClass]="{
+                'high': task.priority==='High',
+                'medium': task.priority==='Medium',
+                'low': task.priority==='Low'
+            }">
+
+                {{task.priority}}
+
+            </span>
+
+            <p>
+
+                {{task.completed ? 'Completed' : 'Pending'}}
+
+            </p>
+
+        </div>
+
+        <button *ngIf="!task.completed" (click)="completeTask(task.id)">
+
+            Complete
+
+        </button>
+
+    </div>
+
+</div>

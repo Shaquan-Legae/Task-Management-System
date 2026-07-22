@@ -7,7 +7,6 @@ namespace TaskManagerAPI.Services
         private readonly List<TaskItem> _tasks = new();
         private int _nextId = 1;
 
-        // Creates a new task and adds it to the list
         public TaskItem AddTask(CreateTaskRequest request)
         {
             TaskItem task = new TaskItem
@@ -20,16 +19,18 @@ namespace TaskManagerAPI.Services
 
             _tasks.Add(task);
 
+            Console.WriteLine($"Added task: {task.Title}");
+            Console.WriteLine($"Total tasks: {_tasks.Count}");
+
             return task;
         }
 
-        // Returns all tasks
         public List<TaskItem> GetAllTasks()
         {
+            Console.WriteLine($"Returning {_tasks.Count} task(s)");
             return _tasks;
         }
 
-        // Marks a task as completed
         public bool CompleteTask(int id)
         {
             var task = _tasks.FirstOrDefault(t => t.Id == id);
@@ -41,8 +42,9 @@ namespace TaskManagerAPI.Services
 
             task.Completed = true;
 
+            Console.WriteLine($"Completed task: {task.Title}");
+
             return true;
         }
-
     }
 }

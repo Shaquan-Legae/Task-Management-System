@@ -1,0 +1,49 @@
+Bug 1:
+
+The POST endpoint always makes the priority to low despite the user input
+
+Fix:
+
+Removed the line that overwrote the priority and added validation to ensure that priorities are:
+High, Medium, Low
+
+Bug 2:
+
+The API only validates task title. It accepts any value for priority.
+
+Fix:
+ 
+Added validation to ensure that priorities are only High, Medium, Low
+
+Bug 3:
+
+The PUT endpoint does not check the validity and presence of the priority of the task .
+
+Original Code:
+
+var task = tasks.Find(t => t.Id == id);
+task.Completed = true;
+
+Fix:
+
+Added a null check to ensure that the task is not null before updating the completed property. If not found,
+the API returns a 404 error (Not Found).
+
+
+Bug 4:
+
+The frontend attempted to complete a task using an HTTP GET request instead of a PUT request.
+
+Original Code:
+
+this.http.get('/api/tasks/' + id)
+
+Fix:
+Changed the HTTP request to a PUT request so it matches the API endpoint for completing a task.
+
+Bug 5:
+The frontend used different API routes when loading or completing a task.
+
+Fix:
+
+Updated the frontend to use the same API route/URL for both loading and completing a task.
