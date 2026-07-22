@@ -19,33 +19,25 @@ export class TaskList implements OnInit, OnDestroy {
   errorMessage: string = '';
 
   private tasksSubscription!: Subscription;
-  private refreshSubscription!: Subscription;
 
   constructor(private taskService: TaskService) {}
 
   ngOnInit(): void {
-    // Subscribe to the tasks BehaviorSubject to automatically update when tasks change
+
     this.tasksSubscription = this.taskService.tasks$.subscribe((tasks) => {
       this.tasks = tasks;
       this.errorMessage = '';
     });
 
-    // Subscribe to refresh events and reload tasks when triggered
-    this.refreshSubscription = this.taskService.refresh$.subscribe(() => {
-      this.loadTasks();
-    });
-
-    // Load tasks from the backend on component initialization
     this.loadTasks();
   }
 
   loadTasks(): void {
     this.isLoading = true;
     this.errorMessage = '';
-    
+
     this.taskService.loadTasks().subscribe({
-      next: (data: Task[]) => {
-        this.tasks = data;
+      next: () => {
         this.isLoading = false;
       },
       error: (err: unknown) => {
@@ -71,6 +63,5 @@ export class TaskList implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.tasksSubscription?.unsubscribe();
-    this.refreshSubscription?.unsubscribe();
   }
 }

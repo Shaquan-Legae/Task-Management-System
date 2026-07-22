@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable, Subject, tap } from 'rxjs';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { Task } from '../models/task';
 
 @Injectable({
@@ -12,9 +12,6 @@ export class TaskService {
 
   private readonly tasksSubject = new BehaviorSubject<Task[]>([]);
   readonly tasks$ = this.tasksSubject.asObservable();
-
-  private readonly refreshSource = new Subject<void>();
-  readonly refresh$ = this.refreshSource.asObservable();
 
   constructor(private http: HttpClient) {}
 
@@ -32,8 +29,10 @@ export class TaskService {
     return this.http.post<Task>(this.apiUrl, task).pipe(
       tap((createdTask) => {
         const currentTasks = this.tasksSubject.getValue();
-        this.tasksSubject.next([...currentTasks, createdTask]);
-        this.refreshSource.next();
+        this.tasksSubject.next([
+          ...currentTasks,
+          createdTask
+        ]);
       })
     );
   }
@@ -42,12 +41,14 @@ export class TaskService {
     return this.http.put<Task>(`${this.apiUrl}/${id}`, {}).pipe(
       tap((updatedTask) => {
         const currentTasks = this.tasksSubject.getValue();
+
         const nextTasks = currentTasks.map((task) =>
-          task.id === id ? { ...task, ...updatedTask } : task
+          task.id === id
+            ? { ...task, ...updatedTask, completed: true }
+            : task
         );
 
         this.tasksSubject.next(nextTasks);
-        this.refreshSource.next();
       })
     );
   }
