@@ -25,26 +25,35 @@ export class TaskList implements OnInit, OnDestroy {
     this.loadTasks();
 
     this.refreshSubscription = this.taskService.refresh$.subscribe(() => {
+      console.log('Refresh event received');
       this.loadTasks();
     });
 
   }
 
   loadTasks(): void {
-  this.taskService.getTasks().subscribe({
-    next: (data: Task[]) => {
-      console.log("Tasks received:", data);
-      this.tasks = data;
-      console.log("Tasks stored:", this.tasks);
-    },
-    error: (err: unknown) => {
-      console.error("Error:", err);
-    }
-  });
-}
+    this.taskService.getTasks().subscribe({
+      next: (data: Task[]) => {
+        console.log('Tasks received:', data);
+        this.tasks = data;
+        console.log('Tasks stored:', this.tasks);
+      },
+      error: (err: unknown) => {
+        console.error('Error loading tasks:', err);
+      }
+    });
+  }
 
   completeTask(id: number): void {
-    this.taskService.completeTask(id).subscribe();
+    this.taskService.completeTask(id).subscribe({
+      next: () => {
+        console.log('PUT successful');
+        this.loadTasks();
+      },
+      error: (err: unknown) => {
+        console.error('Error completing task:', err);
+      }
+    });
   }
 
   ngOnDestroy(): void {
